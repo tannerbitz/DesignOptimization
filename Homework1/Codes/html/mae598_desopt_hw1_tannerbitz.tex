@@ -1,0 +1,193 @@
+
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and republish this document.
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.5}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+    
+    
+\subsection*{Contents}
+
+\begin{itemize}
+\setlength{\itemsep}{-1ex}
+   \item problem 1
+   \item problem 2
+   \item problem 3
+\end{itemize}
+\begin{verbatim}
+% Tanner Bitz
+% MAE 598: Design Optimization
+% Fall 2018
+% HW 1
+\end{verbatim}
+
+
+\subsection*{problem 1}
+
+\begin{verbatim}
+clear all; clc;
+fun = @(x) 24.55*x(1) + 26.75*x(2) + 39.00*x(3) + 40.50*x(4);
+x0 = [1,1,1,1];
+A = [-2.3, -5.6, -11.1, -1.3;
+       -1,    0,     0,    0;
+        0,   -1,     0,    0;
+        0,    0,    -1,    0;
+        0,    0,     0,   -1];
+
+b = [-5, 0, 0, 0 ,0]';
+Aeq = [1, 1, 1, 1];
+beq = 1;
+lb = [];
+ub = [];
+nonlcon = @p1_nonlincon;
+x = fmincon(fun, x0, A, b, Aeq, beq, lb, ub, nonlcon)
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim}
+Local minimum found that satisfies the constraints.
+
+Optimization completed because the objective function is non-decreasing in 
+feasible directions, to within the default value of the optimality tolerance,
+and constraints are satisfied to within the default value of the constraint tolerance.
+
+
+
+
+x =
+
+    0.6355    0.0000    0.3127    0.0518
+
+\end{verbatim} \color{black}
+    
+
+\subsection*{problem 2}
+
+\begin{verbatim}
+clear all; clc;
+% I am minimizing the surface area of a cyclindrical soda can.
+%   x(1) - radius of soda can
+%   x(2) - height (or length) of soda can
+f = @(x) 2*pi*x(1)*x(2) + 2*pi*x(1)^2;  %minimize surface area
+x0 = [1,1];                             %initial guess
+A = -eye(2);
+b = zeros(1,2);
+Aeq = [];
+beq = [];
+lb = [];
+ub = [];
+nonlcon = @p2_nonlincon;
+x = fmincon(f, x0, A, b, Aeq, beq, lb, ub, nonlcon)
+cm2inches = 0.393701;
+x_inches = x*cm2inches
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim}
+Local minimum found that satisfies the constraints.
+
+Optimization completed because the objective function is non-decreasing in 
+feasible directions, to within the default value of the optimality tolerance,
+and constraints are satisfied to within the default value of the constraint tolerance.
+
+
+
+
+x =
+
+    3.8368    7.6736
+
+
+x_inches =
+
+    1.5105    3.0211
+
+\end{verbatim} \color{black}
+    
+
+\subsection*{problem 3}
+
+\begin{verbatim}
+clear all; clc;
+% integer programming solution
+f = [5, 6, 7]';     % minimizing the total cost given protein/vitamin constraints
+intcon = 1:3;       % all variables are integers
+A = [-5,  0, -3;
+      0, -6, -2;
+     -1,  0,  0;
+      0, -1,  0;
+      0,  0, -1];
+b = [-10, -20, 0, 0, 0]';
+
+x = intlinprog(f, intcon, A, b)
+integer_optimal_cost = 5*x(1) + 6*x(2) + 7*x(3)
+
+% linear progamming (not integer variable constrained) solution
+% A = x(1)
+% B = x(2)
+% C = x(3)
+fun = @(x) 5*x(1) + 6*x(2) + 7*x(3);
+x0 = [0, 0, 0]';
+y = fmincon(fun, x0, A, b)
+optimal_cost = fun(y)
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim}LP:                Optimal objective value is 30.000000.                                            
+
+Cut Generation:    Applied 2 mir cuts, and 1 strong CG cut.                                         
+                   Lower bound is 34.000000.                                                        
+                   Relative gap is 0.00%.                                                          
+
+
+Optimal solution found.
+
+Intlinprog stopped at the root node because the objective value is within a gap
+tolerance of the optimal value, options.AbsoluteGapTolerance = 0 (the default
+value). The intcon variables are integer within tolerance,
+options.IntegerTolerance = 1e-05 (the default value).
+
+
+x =
+
+    2.0000
+    4.0000
+         0
+
+
+integer_optimal_cost =
+
+   34.0000
+
+
+Local minimum found that satisfies the constraints.
+
+Optimization completed because the objective function is non-decreasing in 
+feasible directions, to within the default value of the optimality tolerance,
+and constraints are satisfied to within the default value of the constraint tolerance.
+
+
+
+
+y =
+
+    2.0000
+    3.3333
+    0.0000
+
+
+optimal_cost =
+
+   30.0000
+
+\end{verbatim} \color{black}
+    
+
+
+\end{document}
+    
